@@ -1,6 +1,8 @@
+import os
+import re
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import re
+import uvicorn
 
 app = FastAPI()
 
@@ -34,3 +36,8 @@ def process_data(request: RequestModel):
 @app.get("/bfhl")
 def get_operation_code():
     return {"operation_code": 1}
+
+# Ensure the correct port is used
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))  # Use Render's PORT environment variable
+    uvicorn.run(app, host="0.0.0.0", port=port)
