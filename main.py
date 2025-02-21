@@ -1,15 +1,23 @@
-import os
-import re
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import uvicorn
+import re
 
 app = FastAPI()
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=False,
+    allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
+
 # Hardcoded user details
-USER_ID = "john_doe_17091999"
-EMAIL = "john@xyz.com"
-ROLL_NUMBER = "ABCD123"
+USER_ID = "Divyansh_Vats_22BAI71419"
+EMAIL = "divyansh@xyz.com"
+ROLL_NUMBER = "22AML4A"
 
 class RequestModel(BaseModel):
     data: list
@@ -36,8 +44,3 @@ def process_data(request: RequestModel):
 @app.get("/bfhl")
 def get_operation_code():
     return {"operation_code": 1}
-
-# Ensure the correct port is used
-if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))  # Use Render's PORT environment variable
-    uvicorn.run(app, host="0.0.0.0", port=port)
