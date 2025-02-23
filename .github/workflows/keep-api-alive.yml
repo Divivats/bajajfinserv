@@ -2,7 +2,8 @@ name: Keep API Alive
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/10 * * * *"  # Runs every 10 minutes
+  workflow_dispatch:  # 👈 This enables manual runs
 
 jobs:
   ping:
@@ -10,9 +11,3 @@ jobs:
     steps:
       - name: Ping API
         run: curl -X GET "https://bajajfinserv-08kk.onrender.com/bfhl"
-      - name: Trigger Workflow Again
-        run: |
-          curl -X POST -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/Divivats/bajajfinserv/actions/workflows/keep-api-alive.yml/dispatches \
-          -d '{"ref":"main"}'
